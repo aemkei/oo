@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>ꝏ - Encode JavaScript with only one symbol</title>
+  <meta name="description"
+    content="Encode JS with one characters. Created by Martin Kleppe aka @aemkei.">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <meta name="theme-color" content="#222222" />
+  <meta property="og:title" content="ꝏ - Encode JS with only one symbol" />
+  <meta property="og:description" content="An implementation of the esoteric programming language Len(language,encoding) using the 7-bit ASCII encoding." />
+  <meta property="og:image" content="http://aem1k.com/oo/preview-large.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@aemkei" />
+  <meta property="twitter:image" content="http://aem1k.com/oo/preview-large.png" />
+  <link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+  <link href='styles.css' rel='stylesheet' type='text/css' />
+</head>
+
+<body>
+  <div id="container">
+    <h2>ꝏ - Encode JavaScript with only one symbol</h2>
+
+    <p>
+      ꝏ (<b>"<i>long-o</i>"</b>) is a JavaScript implementation of the esoteric programming language <a href="https://esolangs.org/wiki/Len(language,encoding)">Len(language,encoding)</a> using the 7-bit ASCII encoding. The code to execute only contains a long sequence of the character <code>o</code>.
+    </p>
+    <p>
+      To run the code, the length of the program is converted to binary and left-padded by zeroes until the data is valid. Then the binary data is split and converted to text using a 7bit ASCII encoding. Finally, said text is evaluated.
+    </p>
+    <p>
+      Created by
+      Martin Kleppe aka <a href="https://twitter.com/aemkei">@aemkei</a>.
+    </p>
+    <p>
+      <em>Note:</em> The resulting code will be very (very!) long even for short programs. ECMAScript 2016 established a maximum string length of 2**53 - 1 elements. In Chrome and Firefox strings currently have a maximum lengthof 2**30 (~1GB).
+    </p>
+
+<h3 id="code">Example</h3>
+
+<ol>
+  <li><b>594985</b></li>
+  <li><b>10010001010000101001</b></li>
+  <li><b>['0100100', '0101000', '0101001']</b></li>
+  <li><b>[36, 40, 41 ]</b></li>
+  <li><b>['$', '(', ')']</b></li>
+  <li><b>'$()'</b></li>
+</ol>
+
+<p>
+  Here is the code that will run the call <code>$()</code>. The encoded output has a length of 594,985 characters. Click <a href="#code" id="run">here</a> to run the code or <a href="index.js">view</a> the full source.
+</p>
+
+
+<pre>
+<span><span class="cm-comment">// example function that we want to call</span></span>
+<span><span class="cm-keyword">const</span> <span class="cm-def">$</span> <span class="cm-operator">=</span> <span class="cm-keyword">function</span>(){ <span class="cm-variable">alert</span>(<span class="cm-string">'works'</span>); }</span>
+<span><span cm-text="">​</span></span>
+<span><span class="cm-keyword">with</span> (<span class="cm-variable">ꝏ</span>())</span>
+<span class="cm-comment">// encoded `$()`</span>
+<span class="cm-variable">ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo</span>
+<span class="cm-variable">ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo</span>
+<span class="cm-variable">ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo</span>
+<span class="cm-variable">ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo</span>
+<span class="cm-variable">ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo</span>
+<span class="cm-variable">ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo</span> <span class="cm-meta">...</span>
+<span class="cm-comment">// the statement above has a length of 594,985 characters</span></span>
+<span><span cm-text="">​</span></span>
+<span><span class="cm-keyword">function</span> <span class="cm-def">ꝏ</span>(){</span>
+  <span><span cm-text="">​</span></span>
+<span> &nbsp;<span class="cm-keyword">function</span> <span class="cm-def">decode</span>(<span class="cm-def">name</span>)&nbsp;{</span>
+  <span><span cm-text="">​</span></span>
+<span> &nbsp; &nbsp;<span class="cm-comment">// get length of string</span></span>
+<span> &nbsp; &nbsp;<span class="cm-keyword">const</span> <span class="cm-def">length</span> <span class="cm-operator">=</span> <span class="cm-variable-2">name</span>.<span class="cm-property">length</span>;</span>
+<span> &nbsp; &nbsp;<span class="cm-comment">// &gt; 594985</span></span>
+<span><span cm-text="">​</span></span>
+<span> &nbsp; &nbsp;<span class="cm-comment">// convert length to binary</span></span>
+<span> &nbsp; &nbsp;<span class="cm-keyword">const</span> <span class="cm-def">binary</span> <span class="cm-operator">=</span> <span class="cm-variable-2">length</span>.<span class="cm-property">toString</span>(<span class="cm-number">2</span>);</span>
+<span> &nbsp; &nbsp;<span class="cm-comment">// &gt; '10010001010000101001'</span></span>
+<span><span cm-text="">​</span></span>
+<span> &nbsp; &nbsp;<span class="cm-comment">// get 7 bits per character</span></span>
+<span> &nbsp; &nbsp;<span class="cm-keyword">const</span> <span class="cm-def">size7</span> <span class="cm-operator">=</span> <span class="cm-variable">Math</span>.<span class="cm-property">ceil</span>(<span class="cm-variable-2">binary</span>.<span class="cm-property">length</span> <span class="cm-operator">/</span> <span class="cm-number">7</span>) <span class="cm-operator">*</span> <span class="cm-number">7</span>;</span>
+<span> &nbsp; &nbsp;<span class="cm-keyword">const</span> <span class="cm-def">binary7</span> <span class="cm-operator">=</span> <span class="cm-variable-2">binary</span>.<span class="cm-property">padStart</span>(<span class="cm-variable-2">size7</span>, <span class="cm-string">'0'</span>);</span>
+<span> &nbsp; &nbsp;<span class="cm-keyword">const</span> <span class="cm-def">pairs</span> <span class="cm-operator">=</span> <span class="cm-variable-2">binary7</span>.<span class="cm-property">match</span>(<span class="cm-string-2">/(\d{7})/g</span>);</span>
+<span> &nbsp; &nbsp;<span class="cm-comment">// &gt; [ '0100100', '0101000', '0101001' ]</span></span>
+<span><span cm-text="">​</span></span>
+<span> &nbsp; &nbsp;<span class="cm-comment">// convert binary to ascii</span></span>
+<span> &nbsp; &nbsp;<span class="cm-keyword">const</span> <span class="cm-def">ascii</span> <span class="cm-operator">=</span> <span class="cm-variable-2">pairs</span>.<span class="cm-property">map</span>(<span class="cm-def">b</span> <span class="cm-operator">=&gt;</span> <span class="cm-variable">parseInt</span>(<span class="cm-variable-2">b</span>, <span class="cm-number">2</span>));</span>
+<span> &nbsp; &nbsp;<span class="cm-comment">// &gt; [ 36, 40, 41 ]</span></span>
+<span><span cm-text="">​</span></span>
+<span> &nbsp; &nbsp;<span class="cm-comment">// convert character codes to chars</span></span>
+<span> &nbsp; &nbsp;<span class="cm-keyword">const</span> <span class="cm-def">chars</span> <span class="cm-operator">=</span> <span class="cm-variable-2">ascii</span>.<span class="cm-property">map</span>(<span class="cm-def">c</span> <span class="cm-operator">=&gt;</span> <span class="cm-variable">String</span>.<span class="cm-property">fromCharCode</span>(<span class="cm-variable-2">c</span>));</span>
+<span> &nbsp; &nbsp;<span class="cm-comment">// &gt; [ '$', '(', ')' ]</span></span>
+<span><span cm-text="">​</span></span>
+<span> &nbsp; &nbsp;<span class="cm-comment">// join characters to code</span></span>
+<span> &nbsp; &nbsp;<span class="cm-keyword">const</span> <span class="cm-def">code</span> <span class="cm-operator">=</span> <span class="cm-variable-2">chars</span>.<span class="cm-property">join</span>(<span class="cm-string">''</span>);</span>
+<span> &nbsp; &nbsp;<span class="cm-comment">// &gt; '$()'</span></span>
+<span><span cm-text="">​</span></span>
+<span> &nbsp; &nbsp;<span class="cm-comment">// execute the code</span></span>
+<span> &nbsp; &nbsp;<span class="cm-variable">eval</span>(<span class="cm-variable-2">code</span>);</span>
+<span>  }</span>
+<span><span cm-text="">​</span></span>
+<span> &nbsp;<span class="cm-comment">// handle undefined expressions</span></span>
+<span> &nbsp;<span class="cm-keyword">return</span> <span class="cm-keyword">new</span> <span class="cm-variable">Proxy</span>({}, {</span>
+<span> &nbsp; &nbsp;<span class="cm-property">has</span> (<span class="cm-def">target</span>, <span class="cm-def">name</span>) {</span>
+<span> &nbsp; &nbsp; &nbsp;<span class="cm-variable-2">decode</span>(<span class="cm-variable-2">name</span>);</span>
+<span> &nbsp; &nbsp; &nbsp;<span class="cm-keyword">return</span> <span class="cm-atom">true</span>;</span>
+<span> &nbsp;  }</span>
+<span>  });</span>
+<span>}</span>
+<span><span cm-text="">​</span></span>
+</pre>
+
+<hr>
+
+<h3>Encoder</h3>
+
+<p>
+  The following function will convert the given code into a (very large) number:
+</p>
+<pre>
+<span><span class="cm-keyword">function</span> <span class="cm-def">encode</span>(<span class="cm-def">code</span>) {</span>
+<span> &nbsp;<span class="cm-keyword">const</span> <span class="cm-def">binary</span> <span class="cm-operator">=</span> <span class="cm-variable-2">code</span>.<span class="cm-property">split</span>(<span class="cm-string">''</span>).<span class="cm-property">map</span>(<span class="cm-def">c</span> <span class="cm-operator">=&gt;</span> <span class="cm-variable-2">c</span></span>
+<span> &nbsp;  .<span class="cm-property">charCodeAt</span>(<span class="cm-number">0</span><span style="font-weight: initial; font-style: initial; text-decoration: initial;">)</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="cm-comment">// ASCII</span></span>
+<span> &nbsp;  .<span class="cm-property">toString</span>(<span class="cm-number">2</span>) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="cm-comment">// binary</span></span>
+<span> &nbsp;  .<span class="cm-property">padStart</span>(<span class="cm-number">7</span>, <span class="cm-number">0</span>) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-comment">// padded</span></span>
+<span>  ).<span class="cm-property">join</span>(<span class="cm-string">''</span>);</span>
+<span><span cm-text="">​</span></span>
+<span> &nbsp;<span class="cm-keyword">const</span> <span class="cm-def">bigInt</span> <span class="cm-operator">=</span> <span class="cm-variable">BigInt</span>(<span class="cm-string">'0b'</span> <span class="cm-operator">+</span> <span class="cm-variable-2">binary</span>);</span>
+<span> &nbsp;<span class="cm-keyword">return</span> <span class="cm-variable-2">bigInt</span>.<span class="cm-property">toString</span>(); &nbsp;<span class="cm-comment">// length</span></span>
+<span>}</span>
+</pre>
+      <h3 id="relatedlinks">Related Links</h3>
+
+      <ul>
+        <li>Follow<a href="https://twitter.com/aemkei">@aemkei</a> on Twitter</li>
+        <li>Visit <a href="https://aem1k.com">aem1k.com</a> for more hacks</li>
+      </ul>
+
+      <hr>
+
+      <pre id="logo">
+      <b>#</b>
+      <b>#</b>
+     <b>##</b>
+      <b>#</b> #
+   ## <b>#</b> #
+ ## # <b>#</b> # #
+# # # <b>#</b> ##
+# # # <b>#</b> # #
+# # # <b>#</b> #  #
+</pre>
+      20XX - Martin Kleppe
+
+    </div>
+
+    <script>
+      document.getElementById('run').addEventListener('click', function(event){
+        event.preventDefault();
+        const script = document.createElement('script');
+
+        script.async = true;
+        script.src = 'index.js';
+        document.body.appendChild(script);
+        console.log(1);
+      });
+    </script>
+
+</body>
+
+</html>
